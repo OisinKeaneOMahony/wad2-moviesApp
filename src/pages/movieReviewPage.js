@@ -1,15 +1,26 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import MovieDetails from "../components/movieDetails";
 import PageTemplate from "../components/templateMoviePage";
-import MovieReview from "../components/movieReview";
+import useMovie from "../hooks/useMovie";
 
-const MovieReviewPage = (props) => {
-  const {movie, review} = props.location.state
+const MovieDetailsPage = (props) => {
+  const { id } = props.match.params;
+  const [movie] = useMovie(id);
+
   return (
-    <PageTemplate movie={movie}>
-      <MovieReview review={review} />
-    </PageTemplate>
+    <>
+      {movie ? (
+        <>
+          <PageTemplate movie={movie}>
+            <MovieDetails movie={movie} />
+          </PageTemplate>
+        </>
+      ) : (
+        <p>Waiting for movie details</p>
+      )}
+    </>
   );
 };
 
-export default withRouter(MovieReviewPage);
+export default withRouter(MovieDetailsPage);
